@@ -76,7 +76,7 @@ setup(
     # tell setuptools to look for any packages under 'src'
     packages=find_packages('src'),
     install_requires=[
-          'Pillow',
+          'Pillow>5.3.0',
           'h5py',
           'lxml'
     ],
