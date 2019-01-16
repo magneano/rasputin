@@ -7,7 +7,7 @@ from rasputin.reader import read_raster_file
 from rasputin.calculate import compute_shade
 from rasputin.triangulate_dem import lindstrom_turk_by_ratio
 from rasputin.triangulate_dem import lindstrom_turk_by_size
-from rasputin.triangulate_dem import surface_normals, orient_tin, compute_slopes
+from rasputin.triangulate_dem import surface_normals, orient_tin, compute_slopes, compute_aspects
 
 
 def geo_tiff_reader():
@@ -24,6 +24,7 @@ def geo_tiff_reader():
     arg_parser.add_argument("-sun_z", type=float, help="Sun ray z component")
     arg_parser.add_argument("-n", action="store_true", help="Compute surface normals")
     arg_parser.add_argument("-slope", action="store_true", help="Compute slope")
+    arg_parser.add_argument("-aspect", action="store_true", help="Compute aspect")
     arg_parser.add_argument("-loglevel", type=int, default=1, help="Verbosity")
     group = arg_parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-ratio", type=float, help="Edge ratio between original meshed raster and result")
@@ -64,6 +65,10 @@ def geo_tiff_reader():
     if res.slope:
         slopes = compute_slopes(normals)
         fields["slope"] = slopes
+
+    if res.aspect:
+        aspects = compute_aspects(normals)
+        fields["aspect"] = aspects
 
     output_path = Path(res.output)
     write(pts=pts, faces=faces, filepath=output_path, fields=fields)
