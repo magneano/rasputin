@@ -365,7 +365,8 @@ def read_raster_file(*,
     raster_coordinates = triangulate_dem.rasterdata_to_pointvector(d, x0d, y0d, x1d, y1d)
 
     logger.debug("Done")
-    return raster_coordinates, info
+    #return raster_coordinates, info
+    return d, x0d, y0d, x1d, y1d, info
 
 
 def read_sun_posisions(*, filepath: Path) -> triangulate_dem.ShadowVector:
